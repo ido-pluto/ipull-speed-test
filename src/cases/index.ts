@@ -66,4 +66,21 @@ async function runTest() {
     }
 }
 
-runTest();
+runTest().catch((error) => {
+    console.error('');
+    console.error(`❌ Unexpected error:`, error);
+    process.exit(0);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('');
+    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+    process.exit(0);
+});
+
+
+process.on('uncaughtException', (error) => {
+    console.error('');
+    console.error('❌ Uncaught Exception:', error);
+    process.exit(0);
+});
