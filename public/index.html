@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IPull Speed Test - Clinic.js Performance Reports</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="hero">
+            <div class="hero-content">
+                <h1>🚀 IPull Speed Test</h1>
+                <p class="subtitle">Performance profiling reports for different versions of IPull downloader</p>
+                <div class="badges">
+                    <span class="badge">Clinic.js Doctor</span>
+                    <span class="badge">Performance Monitoring</span>
+                    <span class="badge">CI/CD Automated</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="intro">
+                <h2>About This Project</h2>
+                <p>
+                    This repository runs continuous performance tests on <a href="https://github.com/ido-pluto/ipull" target="_blank">IPull</a>
+                    across all versions using Clinic.js Doctor. The goal is to ensure IPull remains the fastest and most efficient downloader
+                    by tracking performance metrics over time.
+                </p>
+            </section>
+
+            <section class="reports">
+                <h2>Performance Reports</h2>
+                <p class="section-subtitle">Click on any version below to view detailed performance analysis</p>
+
+                <div class="version-grid">
+                    <a href="./beta/" class="version-card beta">
+                        <div class="card-header">
+                            <span class="version-icon">β</span>
+                            <div class="card-title">
+                                <h3>Beta Version</h3>
+                                <span class="version-label">Latest Features</span>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Bleeding edge features and improvements. Preview the latest performance optimizations
+                            before they reach stable releases.
+                        </p>
+                        <div class="card-footer">
+                            <span class="view-report">View Reports →</span>
+                        </div>
+                    </a>
+
+                    <a href="./v3/" class="version-card v3">
+                        <div class="card-header">
+                            <span class="version-icon">3</span>
+                            <div class="card-title">
+                                <h3>Version 3</h3>
+                                <span class="version-label">Stable</span>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Production-ready stable release. Proven performance benchmarks and battle-tested
+                            reliability for production environments.
+                        </p>
+                        <div class="card-footer">
+                            <span class="view-report">View Reports →</span>
+                        </div>
+                    </a>
+
+                    <a href="./v4/" class="version-card v4">
+                        <div class="card-header">
+                            <span class="version-icon">4</span>
+                            <div class="card-title">
+                                <h3>Version 4</h3>
+                                <span class="version-label">Latest Stable</span>
+                            </div>
+                        </div>
+                        <p class="card-description">
+                            Latest stable release with enhanced features. Combines reliability with modern
+                            improvements and performance optimizations.
+                        </p>
+                        <div class="card-footer">
+                            <span class="view-report">View Reports →</span>
+                        </div>
+                    </a>
+                </div>
+
+                <div style="margin-top: 48px; padding: 24px; background: #f8fafc; border-radius: 12px; border-left: 4px solid #0066cc;">
+                    <h3 style="color: #0066cc; margin-bottom: 16px;">📊 Available Clinic.js Tools</h3>
+                    <p style="color: #64748b; margin-bottom: 20px;">Each version includes three comprehensive profiling reports:</p>
+                    <div class="info-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+                        <div style="padding: 12px;">
+                            <strong style="color: #0066cc;">🏥 Doctor Report</strong>
+                            <p style="color: #64748b; font-size: 0.9rem; margin-top: 8px;">Memory leaks, GC pressure, event loop delays</p>
+                        </div>
+                        <div style="padding: 12px;">
+                            <strong style="color: #0066cc;">🔥 Flamegraph</strong>
+                            <p style="color: #64748b; font-size: 0.9rem; margin-top: 8px;">CPU usage patterns, hot functions, call stacks</p>
+                        </div>
+                        <div style="padding: 12px;">
+                            <strong style="color: #0066cc;">🫧 Bubbleprof</strong>
+                            <p style="color: #64748b; font-size: 0.9rem; margin-top: 8px;">Function timing, latency analysis, async delays</p>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h4>📈 Metrics Tracked</h4>
+                        <p>Download speed, event loop latency, memory consumption, and CPU utilization</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>
+                Generated with <a href="https://clinicjs.org/" target="_blank">Clinic.js</a> |
+                <a href="https://github.com/ido-pluto/ipull-speed-test" target="_blank">View on GitHub</a>
+            </p>
+            <p class="last-updated">Last updated: <span id="timestamp"></span></p>
+        </footer>
+    </div>
+
+    <script>
+        // Display current timestamp
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+    </script>
+</body>
+
+</html>
