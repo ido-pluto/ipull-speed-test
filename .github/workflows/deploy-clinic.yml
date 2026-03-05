@@ -38,8 +38,8 @@ jobs:
           # Remove large binary trace/stack files from bubbleprof to reduce deployment size
           find .clinic -name "*.clinic-bubbleprof-traceevent" -type f -delete
           find .clinic -name "*.clinic-bubbleprof-stacktrace" -type f -delete
-          find .clinic -name "*.clinic-flame-*" -type f -size +100m -delete
-          find .clinic -name "*.clinic-doctor-*" -type f -size +100m -delete
+          find .clinic -name "*.clinic-flame-*" -type f -size +100M -delete
+          find .clinic -name "*.clinic-doctor-*" -type f -size +100M -delete
           echo "Cleaned up large clinic data files"
 
       - name: Copy static website content
