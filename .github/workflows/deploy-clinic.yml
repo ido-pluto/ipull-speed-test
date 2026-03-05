@@ -28,21 +28,26 @@ jobs:
       - name: Build and profile all versions
         run: npm run clinic:all
 
+      - name: Cleanup trace logs
+        run: |
+          find . -name "node_trace.*.log" -type f -delete
+          echo "Cleaned up node trace logs"
+
       - name: Copy static website content
         run: |
-          cp -r public/* clinic/
-          echo "Deployment timestamp: $(date)" >> clinic/deployment-info.txt
+          cp -r public/* .clinic/
+          echo "Deployment timestamp: $(date)" >> .clinic/deployment-info.txt
 
       - name: Upload clinic reports as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: clinic-reports
-          path: clinic/
+          path: .clinic/
           retention-days: 30
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./clinic
+          publish_dir: ./.clinic
           cname: false
