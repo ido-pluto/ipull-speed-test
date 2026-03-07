@@ -58,6 +58,10 @@ async function runTest() {
         const duration = Date.now() - startTime;
         console.log('');
         console.log(`✅ Test completed successfully in ${duration}ms`);
+        
+        // Give clinic bubbleprof time to flush async_hooks trace data
+        // before the process exits (prevents "premature close" error)
+        await new Promise(resolve => setTimeout(resolve, 8000));
     } catch (error) {
         console.error('');
         console.error(`❌ Test failed:`, error);
