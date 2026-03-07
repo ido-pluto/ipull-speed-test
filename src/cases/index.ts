@@ -58,6 +58,11 @@ async function runTest() {
         const duration = Date.now() - startTime;
         console.log('');
         console.log(`✅ Test completed successfully in ${duration}ms`);
+        
+        // Give clinic bubbleprof time to properly flush async_hooks trace data
+        // before process exit. Without this delay, bubbleprof's streams get
+        // "premature close" errors because process.exit() interrupts the flush.
+        await new Promise(resolve => setTimeout(resolve, 5000));
         process.exit(0);
     } catch (error) {
         console.error('');
