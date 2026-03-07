@@ -31,10 +31,10 @@ Or profile all versions:
 npm run clinic:all
 ```
 
-View the generated reports by opening `.clinic/<version>/index.html` in your browser.
+View the generated reports by opening `clinic-reports/<version>/index.html` in your browser.
 
 Direct report files are generated as:
 
-- `.clinic/beta/doctor/beta-doctor.clinic-doctor.html`
-- `.clinic/beta/flame/beta-flame.clinic-flame.html`
-- `.clinic/beta/bubbleprof/beta-bubbleprof.clinic-bubbleprof.html`
+- `clinic-reports/beta/doctor/beta-doctorclinic-reports-doctor.html`
+- `clinic-reports/beta/flame/beta-flameclinic-reports-flame.html`
+- `clinic-reports/beta/bubbleprof/beta-bubbleprofclinic-reports-bubbleprof.html`
