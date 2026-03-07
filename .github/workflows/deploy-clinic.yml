@@ -26,7 +26,9 @@ jobs:
         run: npm ci
 
       - name: Build and profile all versions
-        run: npm run clinic:all
+        run: |
+          mkdir -p .clinic
+          npm run clinic:all
 
       - name: Cleanup trace logs
         run: |
@@ -36,14 +38,17 @@ jobs:
       - name: Cleanup large clinic data files
         run: |
           # Remove large binary trace/stack files from bubbleprof to reduce deployment size
-          find .clinic -name "*.clinic-bubbleprof-traceevent" -type f -delete
-          find .clinic -name "*.clinic-bubbleprof-stacktrace" -type f -delete
-          find .clinic -name "*.clinic-flame-*" -type f -size +100M -delete
-          find .clinic -name "*.clinic-doctor-*" -type f -size +100M -delete
+          if [ -d .clinic ]; then
+            find .clinic -name "*.clinic-bubbleprof-traceevent" -type f -delete
+            find .clinic -name "*.clinic-bubbleprof-stacktrace" -type f -delete
+            find .clinic -name "*.clinic-flame-*" -type f -size +100M -delete
+            find .clinic -name "*.clinic-doctor-*" -type f -size +100M -delete
+          fi
           echo "Cleaned up large clinic data files"
 
       - name: Copy static website content
         run: |
+          mkdir -p .clinic
           cp -r public/* .clinic/
           echo "Deployment timestamp: $(date)" >> .clinic/deployment-info.txt
 
