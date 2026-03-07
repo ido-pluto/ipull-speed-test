@@ -25,10 +25,27 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Prepare clinic output directories
+        run: |
+          mkdir -p .clinic/beta/{doctor,flame,bubbleprof}
+          mkdir -p .clinic/v3/{doctor,flame,bubbleprof}
+          mkdir -p .clinic/v4/{doctor,flame,bubbleprof}
+          echo "Created output directory structure"
+
       - name: Build and profile all versions
         run: |
-          mkdir -p .clinic
           npm run clinic:all
+          echo "Profiling completed"
+
+      - name: Validate clinic output
+        run: |
+          echo "Checking generated files..."
+          find .clinic -name "*.html" -type f | head -20 || true
+          echo "Total HTML reports: $(find .clinic -name '*.html' -type f | wc -l)"
+          ls -lh .clinic/ || true
+          ls -lh .clinic/beta/ || true
+          ls -lh .clinic/v3/ || true
+          ls -lh .clinic/v4/ || true
 
       - name: Cleanup trace logs
         run: |
@@ -48,12 +65,21 @@ jobs:
 
       - name: Copy static website content
         run: |
-          mkdir -p .clinic
           cp -r public/* .clinic/
           echo "Deployment timestamp: $(date)" >> .clinic/deployment-info.txt
+          echo "Static content copied to .clinic/"
+
+      - name: Verify deployment content
+        run: |
+          echo "=== Final .clinic/ directory contents ==="
+          du -sh .clinic/
+          find .clinic -type f -name "*.html" | sort
+          echo "=== Directory tree (depth 3) ==="
+          find .clinic -maxdepth 3 -type d | sort
 
       - name: Upload clinic reports as artifacts
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: clinic-reports
           path: .clinic/
