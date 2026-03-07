@@ -27,9 +27,9 @@ jobs:
 
       - name: Prepare clinic output directories
         run: |
-          mkdir -p .clinic/beta/{doctor,flame,bubbleprof}
-          mkdir -p .clinic/v3/{doctor,flame,bubbleprof}
-          mkdir -p .clinic/v4/{doctor,flame,bubbleprof}
+          mkdir -p clinic-reports/beta/{doctor,flame,bubbleprof}
+          mkdir -p clinic-reports/v3/{doctor,flame,bubbleprof}
+          mkdir -p clinic-reports/v4/{doctor,flame,bubbleprof}
           echo "Created output directory structure"
 
       - name: Build and profile all versions
@@ -40,12 +40,12 @@ jobs:
       - name: Validate clinic output
         run: |
           echo "Checking generated files..."
-          find .clinic -name "*.html" -type f | head -20 || true
-          echo "Total HTML reports: $(find .clinic -name '*.html' -type f | wc -l)"
-          ls -lh .clinic/ || true
-          ls -lh .clinic/beta/ || true
-          ls -lh .clinic/v3/ || true
-          ls -lh .clinic/v4/ || true
+          find clinic-reports -name "*.html" -type f | head -20 || true
+          echo "Total HTML reports: $(find clinic-reports -name '*.html' -type f | wc -l)"
+          ls -lh clinic-reports/ || true
+          ls -lh clinic-reports/beta/ || true
+          ls -lh clinic-reports/v3/ || true
+          ls -lh clinic-reports/v4/ || true
 
       - name: Cleanup trace logs
         run: |
@@ -55,39 +55,39 @@ jobs:
       - name: Cleanup large clinic data files
         run: |
           # Remove large binary trace/stack files from bubbleprof to reduce deployment size
-          if [ -d .clinic ]; then
-            find .clinic -name "*.clinic-bubbleprof-traceevent" -type f -delete
-            find .clinic -name "*.clinic-bubbleprof-stacktrace" -type f -delete
-            find .clinic -name "*.clinic-flame-*" -type f -size +100M -delete
-            find .clinic -name "*.clinic-doctor-*" -type f -size +100M -delete
+          if [ -d clinic-reports ]; then
+            find clinic-reports -name "*.clinic-bubbleprof-traceevent" -type f -delete
+            find clinic-reports -name "*.clinic-bubbleprof-stacktrace" -type f -delete
+            find clinic-reports -name "*.clinic-flame-*" -type f -size +100M -delete
+            find clinic-reports -name "*.clinic-doctor-*" -type f -size +100M -delete
           fi
           echo "Cleaned up large clinic data files"
 
       - name: Copy static website content
         run: |
-          cp -r public/* .clinic/
-          echo "Deployment timestamp: $(date)" >> .clinic/deployment-info.txt
-          echo "Static content copied to .clinic/"
+          cp -r public/* clinic-reports/
+          echo "Deployment timestamp: $(date)" >> clinic-reports/deployment-info.txt
+          echo "Static content copied to clinic-reports/"
 
       - name: Verify deployment content
         run: |
-          echo "=== Final .clinic/ directory contents ==="
-          du -sh .clinic/
-          find .clinic -type f -name "*.html" | sort
+          echo "=== Final clinic-reports/ directory contents ==="
+          du -sh clinic-reports/
+          find clinic-reports -type f -name "*.html" | sort
           echo "=== Directory tree (depth 3) ==="
-          find .clinic -maxdepth 3 -type d | sort
+          find clinic-reports -maxdepth 3 -type d | sort
 
       - name: Upload clinic reports as artifacts
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: clinic-reports
-          path: .clinic/
+          path: clinic-reports/
           retention-days: 30
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./.clinic
+          publish_dir: ./clinic-reports
           cname: false
