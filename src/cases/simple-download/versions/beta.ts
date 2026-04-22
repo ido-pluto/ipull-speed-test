@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { SIMPLE_CLI_DOWNLOAD_CONFIG } from "../config.js";
 
 // Try linked local ipull first, fall back to ipull-beta for CI
